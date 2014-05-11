@@ -1,4 +1,4 @@
 = simple_form_for @tweet, html: { class: 'tweet-form' } do |f|
-  = f.input :body, as: :text, label: false, placeholder: 'Please enter your tweet (upto 140 symbols)',
+  = f.input :body, as: :text, label: false, placeholder: 'Please enter your tweet (up to 140 symbols)',
     input_html: { class: 'tweet-body' }
   = f.submit 'Submit', class: 'btn btn-primary'
