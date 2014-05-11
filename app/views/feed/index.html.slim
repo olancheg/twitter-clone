@@ -1,0 +1,10 @@
+h1 Feed
+
+- if @tweets
+  = render @tweets
+- else
+  | There's no tweets, please,
+  '
+  = link_to 'add friends', users_path
+  '
+  | to see their activity.

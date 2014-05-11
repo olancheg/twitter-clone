@@ -1,0 +1,7 @@
+.span6.offset2
+  h2 Forgot your password?
+  = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+    = f.input :email, required: true, autofocus: true, label: false, placeholder: 'E-mail'
+    = f.button :submit, 'Reset password'
+
+  = render 'devise/shared/links'

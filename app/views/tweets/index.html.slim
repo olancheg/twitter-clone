@@ -1,0 +1,12 @@
+.header
+  h1.pull-left Your tweets
+  = link_to 'Add new', [:new, :tweet], class: 'btn btn-primary pull-right'
+
+.clearfix
+
+- if @tweets.any?
+  = render @tweets
+- else
+  | You have no tweets,
+  '
+  = link_to 'create one', [:new, :tweet]

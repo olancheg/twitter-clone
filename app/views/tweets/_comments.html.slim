@@ -1,0 +1,8 @@
+h5 Comments
+- if comments.any?
+  = render comments
+- else
+  span There's no comments yet
+
+h6 Add new one
+= render 'comments/form', comment: comments.build, tweet: tweet

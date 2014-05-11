@@ -1,0 +1,14 @@
+defaults: &defaults
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  database: twitter_development
+  <<: *defaults
+test:
+  database: twitter_test
+  <<: *defaults
+production:
+  database: twitter_production
+  <<: *defaults

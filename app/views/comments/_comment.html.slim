@@ -1,0 +1,8 @@
+.alert.alert-info.alert-block.comment
+  p.lead = comment.body
+  p
+    small = comment.updated_at
+    '
+    | |
+    '
+    small = link_to "@#{comment.user_username}", comment.user

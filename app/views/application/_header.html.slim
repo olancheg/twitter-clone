@@ -1,0 +1,24 @@
+.navbar.navbar-inverse.navbar-fixed-top
+  .navbar-inner
+    .container
+      = link_to 'Twitter', root_path, class: 'brand'
+
+      - if signed_in?
+        ul.nav.pull-right
+          li.dropdown
+            a.dropdown-toggle href='#' data-toggle='dropdown'
+              | My account
+              b.caret
+            ul.dropdown-menu
+              li
+                = link_to 'Tweets', :tweets
+              li
+                a href='#' Friends
+              li
+                a href='#' Black list
+              li class='divider'
+              li class='nav-header' Profile
+              li
+                = link_to 'Edit', edit_user_registration_path
+              li
+                = link_to 'Log out', destroy_user_session_path, method: :delete

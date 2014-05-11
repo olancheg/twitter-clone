@@ -1,0 +1,8 @@
+.alert.alert-block.tweet
+  h4
+    = tweet_title(tweet)
+  p.lead = link_to tweet.body, tweet, class: :body
+  p
+    small = tweet_info(tweet)
+
+  = render 'actions', tweet: tweet if tweet.user == current_user

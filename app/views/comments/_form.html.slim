@@ -1,0 +1,3 @@
+= simple_form_for [tweet, comment], html: { class: 'comment-form' } do |f|
+  = f.input :body, as: :text, label: false, placeholder: 'Please enter your comment'
+  = f.submit 'Submit', class: 'btn btn-primary'
