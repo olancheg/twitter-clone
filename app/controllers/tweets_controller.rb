@@ -1,14 +1,17 @@
 class TweetsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :find_resource, except: :index
+  before_filter :find_resource, except: [:index, :show]
 
   def index
     @tweets = current_user.tweets
   end
 
   def new() end
-  def show() end
   def edit() end
+
+  def show
+    @tweet = Tweet.find(params[:id])
+  end
 
   def create
     if @tweet.save
