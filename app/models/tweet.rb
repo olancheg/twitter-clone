@@ -7,4 +7,11 @@ class Tweet < ActiveRecord::Base
   has_many :comments, order: 'created_at DESC'
 
   delegate :username, :realname, to: :user, prefix: true, allow_nil: true
+
+  def add_comment(params, user)
+    comment = comments.build(params)
+    comment.user = user
+    comment.save
+    comment
+  end
 end

@@ -7,10 +7,20 @@ describe Tweet do
   it { should belong_to(:user) }
   it { should have_many(:comments) }
 
-  describe '#user_username' do
-    let(:user) { create :user }
-    let(:tweet) { user.tweets.create(attributes_for(:tweet)) }
+  let(:user) { create :user }
+  let(:tweet) { user.tweets.create(attributes_for(:tweet)) }
 
+  describe '#add_comment' do
+    let(:result) { tweet.add_comment({ body: 'text' }, user) }
+
+    it 'creates comment' do
+      expect(result).to be_instance_of Comment
+      expect(result).to be_persisted
+      expect(result.body).to eq 'text'
+    end
+  end
+
+  describe '#user_username' do
     subject { tweet.user_username }
 
     it 'returns `username` of associated user' do
@@ -19,9 +29,6 @@ describe Tweet do
   end
 
   describe '#user_realname' do
-    let(:user) { create :user }
-    let(:tweet) { user.tweets.create(attributes_for(:tweet)) }
-
     subject { tweet.user_realname }
 
     it 'returns `realname` of associated user' do
