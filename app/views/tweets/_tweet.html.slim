@@ -5,4 +5,4 @@
   p
     small = tweet_info(tweet)
 
-  = render 'actions', tweet: tweet if tweet.user == current_user
+  = render 'tweets/actions', tweet: tweet if tweet.user == current_user
