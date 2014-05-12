@@ -1,7 +1,22 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+names = %w(John Adam Alan Matt Kevin)
+surnames = %w(Storm Sand Winter Wind Summer)
+
+users = 25.times.map do |i|
+  user = User.new.tap do |user|
+    user.email = "test#{i}@mail.com"
+    user.username = "user#{i}"
+    user.realname = "#{names.sample} #{surnames.sample}"
+    user.password = user.password_confirmation = 'testetest'
+    user.save!
+  end
+  rand(10).times do
+    user.tweets.create(body: 'Lorem ipsum ' * (rand(10) + 1))
+  end
+  user
+end
+
+Tweet.find_each do |tweet|
+  rand(10).times do |i|
+    tweet.add_comment({ body: "Comment ##{i}" }, users.sample)
+  end
+end
