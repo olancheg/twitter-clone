@@ -1,6 +1,6 @@
 h1 Feed
 
-- if @tweets
+- if @tweets.present?
   = render @tweets
 - else
   | There's no tweets, please,
