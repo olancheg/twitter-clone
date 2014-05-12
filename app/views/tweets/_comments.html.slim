@@ -1,8 +1,8 @@
 h5 Comments
 - if comments.any?
-  = render comments
+  = render comments.reject(&:new_record?)
 - else
   span There's no comments yet
 
 h6 Add new one
-= render 'comments/form', comment: comments.build, tweet: tweet
+= render 'comments/form', comment: @comment || comments.build, tweet: tweet

@@ -3,11 +3,13 @@ class CommentsController < ApplicationController
   before_filter :find_tweet
 
   def create
-    @comment = @tweet.comments.build(params[:comment])
-    @comment.user = current_user
-    @comment.save
+    @comment = @tweet.add_comment(params[:comment], current_user)
 
-    redirect_to @tweet
+    if @comment.persisted?
+      redirect_to @tweet
+    else
+      render 'tweets/show'
+    end
   end
 
 private
