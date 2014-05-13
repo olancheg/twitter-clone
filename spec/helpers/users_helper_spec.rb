@@ -26,13 +26,13 @@ describe UsersHelper do
   describe '.incoming_requests_title' do
     before { user.stub(:incoming_requests_count).and_return(10) }
     subject { helper.incoming_requests_title(user) }
-    it { should eq 'Incoming (10)' }
+    it { should eq 'Incoming requests (10)' }
   end
 
   describe '.outgoing_requests_title' do
     before { user.stub(:outgoing_requests_count).and_return(6) }
     subject { helper.outgoing_requests_title(user) }
-    it { should eq 'Outgoing (6)' }
+    it { should eq 'Outgoing requests (6)' }
   end
 
   describe '.dropdown_friends_link' do

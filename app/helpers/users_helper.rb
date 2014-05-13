@@ -6,11 +6,11 @@ module UsersHelper
   end
 
   def incoming_requests_title(user)
-    "Incoming (#{user.incoming_requests_count})"
+    "Incoming requests (#{user.incoming_requests_count})"
   end
 
   def outgoing_requests_title(user)
-    "Outgoing (#{user.outgoing_requests_count})"
+    "Outgoing requests (#{user.outgoing_requests_count})"
   end
 
   def dropdown_friends_link(user)
