@@ -3,6 +3,13 @@
     .container
       = link_to 'Twitter', root_path, class: 'brand'
 
+      .nav-collapse.collapse
+        ul.nav
+          li class=('active' if current_page? root_path)
+            = link_to 'Feed', :root
+          li class=('active' if current_page? users_path)
+            = link_to 'Users', :users
+
       - if signed_in?
         ul.nav.pull-right
           li.dropdown
@@ -13,7 +20,7 @@
               li
                 = link_to 'Tweets', :tweets
               li
-                a href='#' Friends
+                = link_to 'Friends', :friendships
               li
                 a href='#' Black list
               li class='divider'

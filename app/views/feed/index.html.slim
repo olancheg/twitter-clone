@@ -2,6 +2,7 @@ h1 Feed
 
 - if @tweets.present?
   = render @tweets
+  .text-center = paginate @tweets
 - else
   | There's no tweets, please,
   '

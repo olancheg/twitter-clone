@@ -7,6 +7,8 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'slim'
 gem 'simple_form'
+gem 'kaminari'
+gem 'kaminari-bootstrap', '~> 0.1.3'
 
 gem 'puma'
 

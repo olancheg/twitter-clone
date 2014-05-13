@@ -7,11 +7,13 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
 
-  has_many :tweets
+  has_many :tweets, order: 'created_at DESC'
   has_many :comments
 
   has_many :outgoing_friend_requests, class_name: :Friendship, foreign_key: :sender_id
   has_many :incoming_friend_requests, class_name: :Friendship, foreign_key: :recipient_id
+
+  paginates_per 5
 
   def friends
     @friends ||= begin
@@ -27,4 +29,24 @@ class User < ActiveRecord::Base
     outgoing_friend_requests.create!(sender: self, recipient: user)
   end
   alias :accept_friend_request :send_friend_request
+
+  def cancel_friendship(user)
+    outgoing_friend_requests.where(recipient_id: user).destroy_all
+  end
+
+  def is_a_friend?(user)
+    friends.include?(user)
+  end
+
+  def has_incoming_friend_request?(user)
+    incoming_friend_requests.where(sender_id: user).exists?
+  end
+
+  def has_outgoing_friend_request?(user)
+    outgoing_friend_requests.where(recipient_id: user).exists?
+  end
+
+  def feed
+    Tweet.where(user_id: friends.pluck(:id))
+  end
 end

@@ -1,4 +1,8 @@
-h1
-  | Users#show
-p
-  | Find me in app/views/users/show.html.erb
+= render 'header', user: @user
+
+h3 Tweets
+- if @tweets.exists?
+  = render @tweets
+  .text-center = paginate @tweets
+- else
+  h6 No tweets here, yet.

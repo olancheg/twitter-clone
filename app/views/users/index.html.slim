@@ -1,4 +1,4 @@
-h1
-  | Users#index
-p
-  | Find me in app/views/users/index.html.erb
+h1 Here's some users
+
+= render @users
+.text-center = paginate @users

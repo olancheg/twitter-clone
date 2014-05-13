@@ -2,9 +2,16 @@ Twitter::Application.routes.draw do
   root to: 'feed#index'
 
   devise_for :users
+  resources :users, only: [:index, :show]
 
   resources :tweets do
     resources :comments, only: :create
   end
-  resources :users, only: [:index, :show]
+
+  resources :friendships, except: [:new, :show] do
+    collection do
+      get :outgoing
+      get :incoming
+    end
+  end
 end

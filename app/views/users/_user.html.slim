@@ -1,0 +1,12 @@
+.alert.alert-success
+  .info.pull-left
+    h4 = link_to user_title(user), user
+    small tweets: #{user.tweets.count}
+    '
+    small comments: #{user.comments.count}
+    '
+    small friends: #{user.friends.count}
+    '
+    small registered: #{user.created_at}
+  .pull-right = render 'users/actions', user: user
+  .clearfix

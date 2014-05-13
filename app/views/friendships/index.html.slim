@@ -1,0 +1,10 @@
+h1 Your friends
+
+- if @friends.exists?
+  = render @friends
+  .text-center = paginate @friends
+- else
+  p
+    | You don't have friends yet,
+    '
+    = link_to 'find one', :users

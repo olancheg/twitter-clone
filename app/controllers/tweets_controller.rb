@@ -3,7 +3,7 @@ class TweetsController < ApplicationController
   before_filter :find_resource, except: [:index, :show]
 
   def index
-    @tweets = current_user.tweets
+    @tweets = current_user.tweets.page(params[:page])
   end
 
   def new() end

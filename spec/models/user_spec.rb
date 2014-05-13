@@ -16,13 +16,14 @@ describe User do
   it { should have_many(:outgoing_friend_requests) }
   it { should have_many(:incoming_friend_requests) }
 
+  def make_friendship(a = user, b = another_user)
+    a.send_friend_request(b)
+    b.send_friend_request(a)
+  end
+
   describe '#friends' do
     subject { user.friends }
-
-    before do
-      user.outgoing_friend_requests.create(sender: user, recipient: another_user)
-      user.incoming_friend_requests.create(sender: another_user, recipient: user)
-    end
+    before { make_friendship }
 
     it 'returns users' do
       expect(subject).to include another_user
@@ -50,6 +51,88 @@ describe User do
     it 'creates outgoing request' do
       expect { subject.(another_user) }.to \
         change{ user.outgoing_friend_requests.count }.from(0).to(1)
+    end
+  end
+
+  describe '#cancel_friendship' do
+    subject { user.method(:cancel_friendship) }
+
+    before { make_friendship }
+
+    it 'creates destroys friendship record' do
+      expect { subject.(another_user) }.to \
+        change{ user.friends.count }.from(1).to(0)
+    end
+  end
+
+  describe '#is_a_friend?' do
+    subject { user.method(:is_a_friend?) }
+
+    let(:definetely_not_a_friend) { create :user }
+
+    before { make_friendship }
+
+    it 'returns false if there is no friendship' do
+      expect(subject.(definetely_not_a_friend)).to be_false
+    end
+
+    it 'returns true if there is friendship relations' do
+      expect(subject.(another_user)).to be_true
+    end
+  end
+
+  describe '#has_incoming_friend_request?' do
+    subject { user.method(:has_incoming_friend_request?) }
+
+    it 'returns false if there is no request' do
+      expect(subject.(another_user)).to be_false
+    end
+
+    it 'returns true if there is a request' do
+      another_user.send_friend_request(user)
+      expect(subject.(another_user)).to be_true
+    end
+  end
+
+  describe '#has_outgoing_friend_request?' do
+    subject { user.method(:has_outgoing_friend_request?) }
+
+    it 'returns false if there is no request' do
+      expect(subject.(another_user)).to be_false
+    end
+
+    it 'returns true if there is a request' do
+      user.send_friend_request(another_user)
+      expect(subject.(another_user)).to be_true
+    end
+  end
+
+  describe '#feed' do
+    subject { user.feed }
+
+    let(:mom) { create :user }
+    let(:dad) { create :user }
+
+    before { make_friendship(user, dad) and make_friendship(user, mom) }
+
+    before do
+      5.times do
+        mom.tweets.create(attributes_for(:tweet))
+        dad.tweets.create(attributes_for(:tweet))
+        another_user.tweets.create(attributes_for(:tweet))
+      end
+    end
+
+    it 'returns tweets from first friend' do
+      expect(subject.pluck(:id)).to include *mom.tweet_ids
+    end
+
+    it 'returns tweets from second friend' do
+      expect(subject.pluck(:id)).to include *dad.tweet_ids
+    end
+
+    it 'does not return tweets from not a friend' do
+      expect(subject.pluck(:id)).not_to include *another_user.tweet_ids
     end
   end
 end

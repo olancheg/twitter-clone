@@ -8,6 +8,8 @@ class Tweet < ActiveRecord::Base
 
   delegate :username, :realname, to: :user, prefix: true, allow_nil: true
 
+  paginates_per 10
+
   def add_comment(params, user)
     comment = comments.build(params)
     comment.user = user

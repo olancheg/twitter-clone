@@ -6,6 +6,7 @@
 
 - if @tweets.any?
   = render @tweets
+  .text-center = paginate @tweets
 - else
   | You have no tweets,
   '

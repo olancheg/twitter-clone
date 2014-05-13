@@ -1,8 +1,6 @@
 module TweetsHelper
   def tweet_title(tweet)
-    title = "@#{tweet.user_username}"
-    title << " (#{tweet.user_realname})" if tweet.user_realname.present?
-    link_to(title, tweet.user)
+    link_to user_title(tweet.user), tweet.user
   end
 
   def tweet_info(tweet)
