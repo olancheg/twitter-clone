@@ -20,7 +20,7 @@
               li
                 = link_to 'Tweets', :tweets
               li
-                = link_to 'Friends', :friendships
+                = dropdown_friends_link(current_user)
               li
                 a href='#' Black list
               li class='divider'

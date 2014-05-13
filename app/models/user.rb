@@ -17,16 +17,14 @@ class User < ActiveRecord::Base
   has_many :outgoing_friend_requests, class_name: :Friendship, foreign_key: :sender_id
   has_many :incoming_friend_requests, class_name: :Friendship, foreign_key: :recipient_id
 
-  paginates_per 5
+  paginates_per 10
 
   def friends
-    @friends ||= begin
-      left_part  = self.incoming_friend_requests.select('sender_id AS id')
-      right_part = self.outgoing_friend_requests.select('recipient_id AS id')
-      subquery   = left_part.intersect(right_part).to_sql
+    @friends ||= User.where("id IN #{friend_id_sql}")
+  end
 
-      User.where("id IN #{subquery}")
-    end
+  def friend_ids
+    friends.pluck(:id)
   end
 
   def send_friend_request(user)
@@ -50,7 +48,24 @@ class User < ActiveRecord::Base
     outgoing_friend_requests.where(recipient_id: user).exists?
   end
 
+  def incoming_requests_count
+    incoming_friend_requests.count - friends.count
+  end
+
+  def outgoing_requests_count
+    outgoing_friend_requests.count - friends.count
+  end
+
   def feed
     Tweet.where(user_id: friends.pluck(:id))
+  end
+
+private
+
+  def friend_id_sql
+    left_part  = self.incoming_friend_requests.select('sender_id AS id')
+    right_part = self.outgoing_friend_requests.select('recipient_id AS id')
+
+    left_part.intersect(right_part).to_sql
   end
 end

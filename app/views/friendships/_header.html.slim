@@ -1,0 +1,7 @@
+ul.nav.nav-pills
+  li class=(:active if current_page? :friendships)
+    = link_to 'Your friends', :friendships
+  li class=(:active if current_page? [:incoming, :friendships])
+    = link_to incoming_requests_title(current_user), [:incoming, :friendships]
+  li class=(:active if current_page? [:outgoing, :friendships])
+    = link_to outgoing_requests_title(current_user), [:outgoing, :friendships]

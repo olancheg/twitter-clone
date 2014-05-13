@@ -5,14 +5,18 @@ class FriendshipsController < ApplicationController
     @friends = current_user.friends.order(:username).page(params[:page])
   end
 
-  def outgoing
-    @requests = current_user.outgoing_friend_requests
-    render :index
+  def incoming
+    @requests = current_user
+      .incoming_friend_requests
+      .without_sender_ids(current_user.friend_ids)
+      .page(params[:page])
   end
 
-  def incoming
-    @requests = current_user.incoming_friend_requests
-    render :index
+  def outgoing
+    @requests = current_user
+      .outgoing_friend_requests
+      .without_recipient_ids(current_user.friend_ids)
+      .page(params[:page])
   end
 
   def create

@@ -7,6 +7,11 @@ class Friendship < ActiveRecord::Base
   validates :sender_id, uniqueness: { scope: :recipient_id }
   validate :recipient_is_self?
 
+  scope :without_sender_ids,    ->(ids) { where arel_table[:sender_id].not_in(ids) }
+  scope :without_recipient_ids, ->(ids) { where arel_table[:recipient_id].not_in(ids) }
+
+  paginates_per 10
+
 private
 
   def recipient_is_self?

@@ -14,11 +14,11 @@ describe User do
   it { should have_many(:comments) }
 
   it { should have_many(:bans) }
-  it { should have_many(:banning_users) }
-  it { should have_many(:banned_users) }
+  it { should have_many(:banning_users).through(:bans).source(:user) }
+  it { should have_many(:banned_users).through(:bans).source(:target) }
 
-  it { should have_many(:outgoing_friend_requests) }
-  it { should have_many(:incoming_friend_requests) }
+  it { should have_many(:outgoing_friend_requests).class_name(:Friendship).with_foreign_key(:sender_id) }
+  it { should have_many(:incoming_friend_requests).class_name(:Friendship).with_foreign_key(:recipient_id) }
 
   def make_friendship(a = user, b = another_user)
     a.send_friend_request(b)
@@ -108,6 +108,36 @@ describe User do
     it 'returns true if there is a request' do
       user.send_friend_request(another_user)
       expect(subject.(another_user)).to be_true
+    end
+  end
+
+  describe '#incoming_requests_count' do
+    let(:friend) { create :user }
+
+    subject { user.incoming_requests_count }
+
+    before do
+      another_user.send_friend_request(user)
+      make_friendship(user, friend)
+    end
+
+    it 'returns count of incoming friend requests that has not been accepted' do
+      expect(subject).to be 1
+    end
+  end
+
+  describe '#outgoing_requests_count' do
+    let(:friend) { create :user }
+
+    subject { user.outgoing_requests_count }
+
+    before do
+      user.send_friend_request(another_user)
+      make_friendship(user, friend)
+    end
+
+    it 'returns count of outgoing friend requests that has not been accepted' do
+      expect(subject).to be 1
     end
   end
 

@@ -1,1 +1,8 @@
-h1 Friendship#outgoing
+= render 'header'
+
+- if @requests.exists?
+  - @requests.each do |request|
+    = render request.recipient
+  .text-center = paginate @requests
+- else
+  p No friend requests
