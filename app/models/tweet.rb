@@ -6,8 +6,6 @@ class Tweet < ActiveRecord::Base
   belongs_to :user
   has_many :comments, order: 'created_at DESC'
 
-  delegate :username, :realname, to: :user, prefix: true, allow_nil: true
-
   paginates_per 10
 
   def add_comment(params, user)

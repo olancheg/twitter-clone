@@ -19,20 +19,4 @@ describe Tweet do
       expect(result.body).to eq 'text'
     end
   end
-
-  describe '#user_username' do
-    subject { tweet.user_username }
-
-    it 'returns `username` of associated user' do
-      expect(subject).to eq user.username
-    end
-  end
-
-  describe '#user_realname' do
-    subject { tweet.user_realname }
-
-    it 'returns `realname` of associated user' do
-      expect(subject).to eq user.realname
-    end
-  end
 end
