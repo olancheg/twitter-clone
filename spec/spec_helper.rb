@@ -34,16 +34,8 @@ RSpec.configure do |config|
   end
 
   config.before :each do
-    DatabaseCleaner.strategy = example.metadata[:js] ||
-                               example.metadata[:truncation] ? :truncation : :transaction
+    DatabaseCleaner.strategy = example.metadata[:truncation] ? :truncation : :transaction
     DatabaseCleaner.start
-
-    if example.metadata[:js]
-      page.driver.headers = {
-        'Accept-Language' => 'en',
-        'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:20.0) Gecko/20100101 Firefox/20.0'
-      }
-    end
   end
 
   config.after :each do

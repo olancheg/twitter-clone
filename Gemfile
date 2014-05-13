@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
-
 gem 'rails', '3.2.18'
 gem 'pg'
 gem 'devise', '~> 2.2.8'
@@ -23,7 +21,6 @@ end
 
 group :development do
   gem 'pry-rails'
-  gem 'capistrano', '~> 2.15.5'
   gem 'quiet_assets'
   gem 'letter_opener'
 end
@@ -35,7 +32,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-migrate'
   gem 'terminal-notifier-guard'
-  gem 'rb-fsevent', '~> 0.9'
 end
 
 group :test do
