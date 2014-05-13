@@ -4,7 +4,7 @@ Twitter::Application.routes.draw do
   devise_for :users
   resources :users, only: [:index, :show]
 
-  resources :tweets do
+  resources :tweets, except: [:edit, :update] do
     resources :comments, only: :create
   end
 

@@ -4,6 +4,6 @@ module TweetsHelper
   end
 
   def tweet_info(tweet)
-    "#{tweet.updated_at} | comments: #{tweet.comments.count}"
+    "#{tweet.created_at} | comments: #{tweet.comments.count}"
   end
 end

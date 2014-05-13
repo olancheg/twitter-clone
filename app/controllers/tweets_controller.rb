@@ -2,12 +2,11 @@ class TweetsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :find_resource, except: [:index, :show]
 
+  def new() end
+
   def index
     @tweets = current_user.tweets.page(params[:page])
   end
-
-  def new() end
-  def edit() end
 
   def show
     @tweet = Tweet.find(params[:id])
@@ -18,14 +17,6 @@ class TweetsController < ApplicationController
       redirect_to @tweet
     else
       render :new
-    end
-  end
-
-  def update
-    if @tweet.update_attributes(params[:tweet])
-      redirect_to @tweet
-    else
-      render :edit
     end
   end
 
