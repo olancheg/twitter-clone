@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 
+ruby '2.1.2'
+
 gem 'rails', '3.2.18'
 gem 'pg'
-gem 'devise'
+gem 'devise', '~> 2.2.8'
 
 gem 'jquery-rails'
 gem 'slim'
