@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
   has_many :tweets, order: 'created_at DESC'
   has_many :comments
 
+  has_many :bans
+  has_many :banning_users, through: :bans, foreign_key: :target_id, source: :user
+  has_many :banned_users, through: :bans, source: :target
+
   has_many :outgoing_friend_requests, class_name: :Friendship, foreign_key: :sender_id
   has_many :incoming_friend_requests, class_name: :Friendship, foreign_key: :recipient_id
 

@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140512175707) do
+ActiveRecord::Schema.define(:version => 20140513093858) do
+
+  create_table "bans", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "target_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "bans", ["target_id"], :name => "index_bans_on_target_id"
+  add_index "bans", ["user_id"], :name => "index_bans_on_user_id"
 
   create_table "comments", :force => true do |t|
     t.string   "body"

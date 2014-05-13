@@ -13,6 +13,10 @@ describe User do
   it { should have_many(:tweets) }
   it { should have_many(:comments) }
 
+  it { should have_many(:bans) }
+  it { should have_many(:banning_users) }
+  it { should have_many(:banned_users) }
+
   it { should have_many(:outgoing_friend_requests) }
   it { should have_many(:incoming_friend_requests) }
 
