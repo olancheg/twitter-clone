@@ -2,7 +2,8 @@
 
 h3 Tweets
 - if @user.banned_users.include? current_user
-  h4.alert.alert-error.text-center You are banned and you can't see user's tweets
+  h4.alert.alert-error.text-center
+    | You are banned and you can't see user's tweets
 - else
   - if @tweets.exists?
     = render @tweets

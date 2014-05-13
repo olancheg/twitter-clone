@@ -1,2 +1,6 @@
-= render @tweet
-= render 'tweets/comments', tweet: @tweet, comments: @tweet.comments
+- if @tweet.user.banned_users.include? current_user
+  h4.alert.alert-error.text-center
+    | You are banned by tweet's owner and you can't see this tweet
+- else
+  = render @tweet
+  = render 'tweets/comments', tweet: @tweet, comments: @tweet.comments
