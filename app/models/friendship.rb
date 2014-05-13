@@ -20,6 +20,6 @@ private
   end
 
   def recipient_is_banned_user?
-    errors.add(:recipient_id, :invalid) if recipient.banned_user_ids.include?(sender_id)
+    errors.add(:recipient_id, :invalid) if recipient && recipient.banned_user_ids.include?(sender_id)
   end
 end
