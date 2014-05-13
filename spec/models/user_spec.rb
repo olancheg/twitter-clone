@@ -71,17 +71,6 @@ describe User do
     end
   end
 
-  describe '#accept_friend_request' do
-    subject { user.method(:accept_friend_request) }
-
-    before { another_user.send_friend_request(user) }
-
-    it 'creates outgoing request' do
-      expect { subject.(another_user) }.to \
-        change{ user.outgoing_friend_requests.count }.from(0).to(1)
-    end
-  end
-
   describe '#cancel_friendship' do
     subject { user.method(:cancel_friendship) }
 
