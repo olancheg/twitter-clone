@@ -7,7 +7,7 @@ module FriendshipSupport
   end
 
   def friends
-    @friends ||= User.where("id IN #{friend_id_sql}")
+    @friends ||= User.where("id IN #{friend_ids_sql}")
   end
 
   def friend_ids
@@ -44,7 +44,7 @@ module FriendshipSupport
 
 private
 
-  def friend_id_sql
+  def friend_ids_sql
     left_part  = self.incoming_friend_requests.select('sender_id AS id')
     right_part = self.outgoing_friend_requests.select('recipient_id AS id')
 
