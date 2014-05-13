@@ -1,0 +1,4 @@
+= simple_form_for '', class: 'horizontal-form', url: users_path, method: :get do |f|
+  = f.input :q, label: false, placeholder: 'Search for user', input_html: { class: 'pull-left' }
+  = f.submit 'Search', class: 'btn pull-left'
+  .clearfix

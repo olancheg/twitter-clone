@@ -17,6 +17,11 @@ class User < ActiveRecord::Base
   has_many :outgoing_friend_requests, class_name: :Friendship, foreign_key: :sender_id
   has_many :incoming_friend_requests, class_name: :Friendship, foreign_key: :recipient_id
 
+  scope :search, ->(options) do
+    query = '%' + options[:q].to_s + '%'
+    where('username ILIKE ? OR realname ILIKE ?', query, query)
+  end
+
   paginates_per 10
 
   def friends

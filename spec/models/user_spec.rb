@@ -25,6 +25,20 @@ describe User do
     b.send_friend_request(a)
   end
 
+  describe '.search' do
+    subject { described_class.search(q: 'super') }
+
+    context 'by username' do
+      before { user.update_attributes(username: 'superhero') }
+      it { should include user }
+    end
+
+    context 'by realname' do
+      before { user.update_attributes(username: 'Super Jack') }
+      it { should include user }
+    end
+  end
+
   describe '#friends' do
     subject { user.friends }
     before { make_friendship }
