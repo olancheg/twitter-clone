@@ -59,6 +59,14 @@ describe User do
     it 'raises an error on sending request to yourself' do
       expect { subject.(user) }.to raise_error ActiveRecord::RecordInvalid
     end
+
+    context 'recipient is banned user' do
+      before { another_user.add_to_banlist(user) }
+
+      it 'does not create record' do
+        expect { subject.(another_user) }.to raise_error ActiveRecord::RecordInvalid
+      end
+    end
   end
 
   describe '#accept_friend_request' do
@@ -152,6 +160,21 @@ describe User do
 
     it 'returns count of outgoing friend requests that has not been accepted' do
       expect(subject).to be 1
+    end
+  end
+
+  describe '#add_to_banlist' do
+    subject { user.method(:add_to_banlist) }
+    before { make_friendship }
+
+    it 'destroys outgoing friend request' do
+      expect { subject.(another_user) }.to \
+        change { user.outgoing_friend_requests.count }.from(1).to(0)
+    end
+
+    it 'adds to `banned_users` list' do
+      expect { subject.(another_user) }.to \
+        change { user.banned_users.count }.from(0).to(1)
     end
   end
 

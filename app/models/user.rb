@@ -61,8 +61,16 @@ class User < ActiveRecord::Base
     outgoing_friend_requests.count - friends.count
   end
 
+  def add_to_banlist(user)
+    # add to list
+    banned_users << user
+
+    # terminate outgoing friend request
+    cancel_friendship(user)
+  end
+
   def feed
-    Tweet.where(user_id: friends.pluck(:id))
+    Tweet.where(user_id: friend_ids)
   end
 
 private
