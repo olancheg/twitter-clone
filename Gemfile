@@ -43,4 +43,5 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'poltergeist'
+  gem 'simplecov', '~> 0.7.1', require: false
 end
