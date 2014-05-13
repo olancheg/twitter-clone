@@ -11,7 +11,9 @@ class User < ActiveRecord::Base
   has_many :comments
 
   has_many :bans
-  has_many :banning_users, through: :bans, foreign_key: :target_id, source: :user
+  has_many :inverse_bans, foreign_key: :target_id, class_name: :Ban
+
+  has_many :banning_users, through: :inverse_bans, source: :user
   has_many :banned_users, through: :bans, source: :target
 
   has_many :outgoing_friend_requests, class_name: :Friendship, foreign_key: :sender_id
@@ -61,12 +63,16 @@ class User < ActiveRecord::Base
     outgoing_friend_requests.count - friends.count
   end
 
-  def add_to_banlist(user)
+  def add_to_blacklist(user)
     # add to list
     banned_users << user
 
     # terminate outgoing friend request
     cancel_friendship(user)
+  end
+
+  def remove_from_blacklist(user)
+    bans.where(target_id: user).destroy_all
   end
 
   def feed

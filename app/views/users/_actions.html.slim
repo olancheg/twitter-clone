@@ -1,11 +1,24 @@
 .actions
-  - if current_user == user
-    | it's you
-  - elsif current_user.is_a_friend?(user)
-    = link_to 'remove from friends', friendship_path(id: user.id), method: :delete, confirm: 'Are you sure?'
-  - elsif current_user.has_incoming_friend_request?(user)
-    = link_to 'approve friendship', friendships_path(id: user.id), method: :post
-  - elsif current_user.has_outgoing_friend_request?(user)
-    | waiting for friendship approval
-  - else
-    = link_to 'add to friends', friendships_path(id: user.id), method: :post
+  - unless current_user.banning_users.include?(user) || current_user.banned_users.include?(user)
+    .friendship-status
+      - if current_user == user
+        | it's you
+      - elsif current_user.is_a_friend?(user)
+        = link_to 'remove from friends', friendship_path(id: user.id), method: :delete, confirm: 'Are you sure?'
+      - elsif current_user.has_incoming_friend_request?(user)
+        = link_to 'approve friendship', friendships_path(id: user.id), method: :post
+      - elsif current_user.has_outgoing_friend_request?(user)
+        | waiting for friendship approval
+      - else
+        = link_to 'add to friends', friendships_path(id: user.id), method: :post
+
+  - if current_user != user
+    .ban
+      - if current_user.banning_users.include?(user)
+        | you are banned by this user
+      - elsif current_user.banned_users.include?(user)
+        | you banned this user
+        '
+        = link_to 'unban', blacklist_path(id: user.id), method: :delete
+      - else
+        = link_to 'ban', blacklists_path(id: user.id), method: :post

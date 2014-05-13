@@ -1,0 +1,16 @@
+h1 Blacklist
+.row
+  .span6
+    h4 Blocks you
+    hr
+    - if @banning_users.exists?
+      = render @banning_users
+    - else
+      | the list is empty
+  .span6
+    h4 Your blocks
+    hr
+    - if @banned_users.exists?
+      = render @banned_users
+    - else
+      | the list is empty

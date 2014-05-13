@@ -1,8 +1,11 @@
 = render 'header', user: @user
 
 h3 Tweets
-- if @tweets.exists?
-  = render @tweets
-  .text-center = paginate @tweets
+- if @user.banned_users.include? current_user
+  h4.alert.alert-error.text-center You are banned and you can't see user's tweets
 - else
-  h6 No tweets here, yet.
+  - if @tweets.exists?
+    = render @tweets
+    .text-center = paginate @tweets
+  - else
+    h6 No tweets here, yet.

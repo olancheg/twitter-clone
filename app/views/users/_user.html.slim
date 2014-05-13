@@ -8,5 +8,5 @@
     small friends: #{user.friends.count}
     '
     small registered: #{user.created_at}
-  .pull-right = render 'users/actions', user: user
+  .pull-right.text-right = render 'users/actions', user: user
   .clearfix

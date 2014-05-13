@@ -14,7 +14,8 @@
         ul.nav.pull-right
           li.dropdown
             a.dropdown-toggle href='#' data-toggle='dropdown'
-              | My account
+              = current_user.username
+              '
               b.caret
             ul.dropdown-menu
               li
@@ -22,7 +23,7 @@
               li
                 = dropdown_friends_link(current_user)
               li
-                a href='#' Black list
+                = link_to 'Black list', :blacklists
               li class='divider'
               li class='nav-header' Profile
               li

@@ -14,7 +14,9 @@ describe User do
   it { should have_many(:comments) }
 
   it { should have_many(:bans) }
-  it { should have_many(:banning_users).through(:bans).source(:user) }
+  it { should have_many(:inverse_bans).with_foreign_key(:target_id).class_name(:Ban) }
+
+  it { should have_many(:banning_users).through(:inverse_bans).source(:user) }
   it { should have_many(:banned_users).through(:bans).source(:target) }
 
   it { should have_many(:outgoing_friend_requests).class_name(:Friendship).with_foreign_key(:sender_id) }
@@ -61,7 +63,7 @@ describe User do
     end
 
     context 'recipient is banned user' do
-      before { another_user.add_to_banlist(user) }
+      before { another_user.add_to_blacklist(user) }
 
       it 'does not create record' do
         expect { subject.(another_user) }.to raise_error ActiveRecord::RecordInvalid
@@ -163,8 +165,8 @@ describe User do
     end
   end
 
-  describe '#add_to_banlist' do
-    subject { user.method(:add_to_banlist) }
+  describe '#add_to_blacklist' do
+    subject { user.method(:add_to_blacklist) }
     before { make_friendship }
 
     it 'destroys outgoing friend request' do
@@ -174,7 +176,29 @@ describe User do
 
     it 'adds to `banned_users` list' do
       expect { subject.(another_user) }.to \
-        change { user.banned_users.count }.from(0).to(1)
+        change { user.banned_user_ids }.from([]).to([another_user.id])
+    end
+
+    it 'banning user appears in `banning_users`' do
+      expect { subject.(another_user) }.to \
+        change { another_user.banning_user_ids }.from([]).to([user.id])
+    end
+  end
+
+  describe '#remove_from_blacklist' do
+    subject { user.method(:remove_from_blacklist) }
+
+    before { make_friendship }
+    before { user.add_to_blacklist(another_user) }
+
+    it 'does not create outgoing friend request' do
+      expect { subject.(another_user) }.not_to \
+        change { user.outgoing_friend_requests.count }
+    end
+
+    it 'removes user from `banned_users` list' do
+      expect { subject.(another_user) }.to \
+        change { user.banned_users.count }.from(1).to(0)
     end
   end
 

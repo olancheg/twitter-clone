@@ -14,4 +14,6 @@ Twitter::Application.routes.draw do
       get :incoming
     end
   end
+
+  resources :blacklists, only: [:index, :create, :destroy]
 end
